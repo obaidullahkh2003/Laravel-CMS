@@ -20,8 +20,14 @@ class Admin
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::guard('admin')->check()) {
-            return redirect()->route('admin_login')->with('error','You are not authorized to access this page.');
+            \Log::debug('Admin is not authenticated.', ['ip' => $request->ip()]);
+
+            return redirect()->route('admin_login')->with('error', 'You are not authorized to access this page.');
         }
+
+        \Log::debug('Admin is authenticated.', ['admin_id' => Auth::guard('admin')->id()]);
+
         return $next($request);
     }
+
 }

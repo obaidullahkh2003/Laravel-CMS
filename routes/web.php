@@ -28,40 +28,44 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/main', function () {
+Route::post('/main', function () {
     $carousels = Carousel::where('is_active', 1)->get();
     $services = Service::where('is_active', 1)->get();
     $navigations = Navigation::where('is_active', 1)->get();
     $portfolioItems = PortfolioItem::where('is_active', 1)->get();
     $timelineEvents = TimelineEvent::where('is_active', 1)->get();
     return view('frontend.layouts.main', compact('carousels', 'services', 'navigations', 'portfolioItems','timelineEvents'));
-});
+})->name('UserLogin');
 
 Auth::routes();
 
 /* ----------------- Admin -----------------*/
 Route::prefix('admin')->group(function () {
-    Route::get('/login', [AdminController::class, 'adminlogin'])->name('admin_login');
+    Route::get('/login', [AdminController::class, 'AdminLogin'])->name('admin_login');
     Route::post('/login/owner', [AdminController::class, 'login'])->name('admin.login');
     Route::get('/', [AdminController::class, 'Dashboard'])->name('home')->middleware('admin');
     Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout')->middleware('admin');
+    Route::get('/register', [AdminController::class, 'AdminRegister'])->name('admin.register');
+    Route::post('/register/create', [AdminController::class, 'AdminRegisterCreate'])->name('admin.register.create');
 
 
 
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::resource('articale', ArticaleController::class);
-    Route::resource('user', UserController::class);
-    Route::resource('roles', RoleController::class);
-    Route::resource('permissions', PermissionController::class);
-    Route::resource('blockRegions', BlockRegionController::class);
-    Route::resource('blocks', BlockController::class);
-    Route::resource('carousels', CarouselController::class);
-    Route::resource('services', ServiceController::class);
-    Route::resource('navigations', NavigationController::class);
-    Route::resource('portfolio', PortfolioItemController::class);
-    Route::resource('timeline-events', TimelineEventController::class);
-    Route::resource('contacts', ContactController::class);
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile')->middleware('admin');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update')->middleware('admin');
+    Route::resource('articale', ArticaleController::class)->middleware('admin');
+    Route::resource('user', UserController::class)->middleware('admin');
+    Route::resource('admin', AdminController::class)->middleware('admin');
+    Route::resource('roles', RoleController::class)->middleware('admin');
+    Route::resource('permissions', PermissionController::class)->middleware('admin');
+    Route::resource('blockRegions', BlockRegionController::class)->middleware('admin');
+    Route::resource('blocks', BlockController::class)->middleware('admin');
+    Route::resource('carousels', CarouselController::class)->middleware('admin');
+    Route::resource('services', ServiceController::class)->middleware('admin');
+    Route::resource('navigations', NavigationController::class)->middleware('admin');
+    Route::resource('portfolio', PortfolioItemController::class)->middleware('admin');
+    Route::resource('timeline-events', TimelineEventController::class)->middleware('admin');
+    Route::resource('contacts', ContactController::class)->middleware('admin');
 });
 
 

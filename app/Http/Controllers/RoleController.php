@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Role;
@@ -18,7 +17,7 @@ class RoleController extends Controller
 
     public function create()
     {
-        $permissions = Permission::paginate(5);
+        $permissions = Permission::all();
         return view('roles.create', compact('permissions'));
     }
 
@@ -26,7 +25,7 @@ class RoleController extends Controller
     {
         $role = Role::create($request->only('name'));
 
-        if ($request->filled('permissions')) {
+        if ($request->has('permissions')) {
             $role->permissions()->attach($request->permissions);
         }
 
@@ -49,12 +48,12 @@ class RoleController extends Controller
     {
         $role->update($request->validated());
 
-
-        $role->permissions()->sync($request->permissions);
+        if ($request->has('permissions')) {
+            $role->permissions()->sync($request->permissions);
+        }
 
         return redirect()->route('roles.index')->with('success', 'Role updated successfully.');
     }
-
 
     public function destroy(Role $role)
     {

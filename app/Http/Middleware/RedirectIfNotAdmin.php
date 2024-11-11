@@ -13,6 +13,6 @@ class RedirectIfNotAdmin
             return $next($request);
         }
 
-        return redirect('/main');
+        return redirect(route('/main'));
     }
 }

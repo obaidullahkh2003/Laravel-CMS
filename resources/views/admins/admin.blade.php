@@ -45,6 +45,10 @@
     </script>
 </head>
 <body id="page-top">
+@php
+    $user=Auth::guard('admin')->user();
+      dd($user->roles, $user->permissions);
+@endphp
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -77,46 +81,73 @@
             {{ __('Settings') }}
         </div>
 
+
+        <!-- Nav Item - Users Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link" href="{{url('admin/user')}}">
-                <i class="fas fa-fw fa-user"></i>
-                <span>{{ __('Users') }}</span>
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers"
+               aria-expanded="false" aria-controls="collapseUsers">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Users</span>
             </a>
+            <div id="collapseUsers" class="collapse" aria-labelledby="headingUsers" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    @can('View Users users')
+                    <a class="collapse-item" href="{{ url('admin/user') }}">
+                        <i class="fas fa-fw fa-user-circle"></i>
+                        <span>Users</span>
+                    </a>
+                    @endcan
+                    <a class="collapse-item" href="{{ url('admin/admin') }}">
+                        <i class="fas fa-fw fa-user-shield"></i>
+                        <span>Admins</span>
+                    </a>
+                </div>
+            </div>
         </li>
 
         <li class="nav-item">
+
             <a class="nav-link" href="{{url('admin/roles')}}">
                 <i class="fas fa-user-shield"></i>
                 <span>{{ __('Roles') }}</span>
             </a>
+
         </li>
 
         <li class="nav-item">
+
             <a class="nav-link" href="{{url('admin/articale')}}">
                 <i class="fas fa-newspaper"></i>
                 <span>{{ __('Article') }}</span>
             </a>
+
         </li>
 
         <li class="nav-item">
+
             <a class="nav-link" href="{{url('admin/permissions')}}">
                 <i class="fas fa-fw fa-wrench"></i>
                 <span>{{ __('Permissions') }}</span>
             </a>
+
         </li>
 
         <li class="nav-item">
+
             <a class="nav-link" href="{{url('admin/blockRegions')}}">
                 <i class="fas fa-fw fa-table"></i>
                 <span>{{ __('Regions') }}</span>
             </a>
+
         </li>
 
         <li class="nav-item">
+
             <a class="nav-link" href="{{url('admin/blocks')}}">
                 <i class="fas fa-fw fa-cubes"></i>
                 <span>{{ __('Blocks') }}</span>
             </a>
+
         </li>
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
@@ -127,11 +158,21 @@
             </a>
             <div id="collapsePageContent" class="collapse" aria-labelledby="headingPageContent" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{url('admin/navigations')}}"><i class="fas fa-fw fa-cogs"></i> Navigations</a>
+
+                    <a class="collapse-item" href="{{url('admin/navigations')}}"><i class="fas fa-fw fa-cogs"></i> Navigations</a>
+
+
                     <a class="collapse-item" href="{{url('admin/carousels')}}"><i class="fas fa-fw fa-images"></i> Carousels</a>
+
+
                     <a class="collapse-item" href="{{url('admin/services')}}"><i class="fas fa-fw fa-briefcase"></i> Services</a>
+
+
                     <a class="collapse-item" href="{{url('admin/portfolio')}}"><i class="fas fa-fw fa-folder"></i> Portfolio</a>
+
+
                     <a class="collapse-item" href="{{url('admin/timeline-events')}}"><i class="fas fa-fw fa-clock"></i> Timeline</a>
+
                 </div>
             </div>
         </li>

@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Cache;
+
 
 class Permission extends Model
 {
@@ -16,9 +17,16 @@ class Permission extends Model
     /**
      * Get the role that owns the permission.
      */
-    public function roles()
+    public static function boot()
     {
-        return $this->belongsToMany(Role::class, 'role_has_permissions');
+        parent::boot();
 
+        static::saved(function ($model) {
+            Cache::forget('spatie.permission.cache');
+        });
+
+        static::deleted(function ($model) {
+            Cache::forget('spatie.permission.cache');
+        });
     }
 }
