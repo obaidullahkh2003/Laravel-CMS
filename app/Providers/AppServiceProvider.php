@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 use App\Models\Role;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
 use Illuminate\Pagination\Paginator;
@@ -31,18 +32,22 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-        $roles = Role::with('permissions')->get();
+        View::composer('*', function ($view) {
+            $user = Auth::guard('admin')->user();
+            $permissionsArray = [];
 
-        $permissionsArray = [];
-        foreach ($roles as $role) {
-            foreach ($role->permissions as $permission) {
-                $permissionsArray[$permission->name][] = $role->id;
+            if ($user) {
+                $roles = $user->roles;
+                foreach ($roles as $role) {
+                    foreach ($role->permissions as $permission) {
+                        $permissionsArray[$permission->name][] = $role->name;
+                    }
+                }
             }
-        }
-        foreach ($permissionsArray as $permissionName => $roleIds) {
-            Gate::define($permissionName, function ($user) use ($roleIds) {
-                return $user->hasAnyRole($roleIds);
-            });
-        }
+
+            $view->with('permissionsArray', $permissionsArray);
+        });
+
+
     }
 }

@@ -13,7 +13,9 @@
             <img src="{{ asset('storage/' . $timelineEvent->image) }}" alt="Event Image" class="img-fluid mt-3">
         @endif
         <div class="mt-3">
-        <a href="{{ route('timeline-events.edit', $timelineEvent) }}" class="btn btn-warning">Edit</a>
+            @if(in_array('edit timeline', array_keys($permissionsArray)))
+            <a href="{{ route('timeline-events.edit', $timelineEvent) }}" class="btn btn-warning">Edit</a>
+            @endif
         <a href="{{ route('timeline-events.index') }}" class="btn btn-secondary">Back to List</a>
         </div>
     </div>

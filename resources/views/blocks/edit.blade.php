@@ -5,10 +5,12 @@
     <form action="{{ route('blocks.update', $block) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+        @if(in_array('edit block region', array_keys($permissionsArray)))
         <div class="form-group">
             <label for="region_id">Region ID</label>
             <input type="text" name="region_id" id="region_id" class="form-control" value="{{ $block->region_id }}" required>
         </div>
+        @endif
         <div class="form-group">
             <label for="title">Title</label>
             <input type="text" name="title" id="title" class="form-control" value="{{ $block->title }}" required>

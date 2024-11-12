@@ -3,8 +3,9 @@
 @section('main-content')
     <div class="container">
         <h1>Admins</h1>
+        @if(in_array('add admin', array_keys($permissionsArray)))
         <a href="{{ route('admin.create') }}" class="btn btn-primary mb-3">Add Admin</a>
-
+        @endif
         @if(session('success'))
             <div class="alert alert-success mb-3 mt-3">{{ session('success') }}</div>
         @endif
@@ -32,12 +33,17 @@
                     </td>
                     <td>
                         <a href="{{ route('admin.show', $user) }}" class="btn btn-info">View</a>
+                        @if(in_array('edit admin', array_keys($permissionsArray)))
                         <a href="{{ route('admin.edit', $user) }}" class="btn btn-warning">Edit</a>
+                        @endif
+                        @if(in_array('delete admin', array_keys($permissionsArray)))
                         <form action="{{ route('admin.destroy', $user) }}" method="POST" style="display:inline;" onsubmit="return confirmDelete(event);">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
+                        @endif
+
                     </td>
                 </tr>
             @endforeach

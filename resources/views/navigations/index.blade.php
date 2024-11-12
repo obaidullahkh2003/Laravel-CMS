@@ -3,8 +3,9 @@
 @section('main-content')
     <div class="container mt-4">
         <h1>Navigation Items</h1>
+        @if(in_array('add navigation', array_keys($permissionsArray)))
         <a href="{{ route('navigations.create') }}" class="btn btn-primary mt-3 mb-3">Create New Navigation</a>
-
+        @endif
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
@@ -27,12 +28,16 @@
                     <td>{{ $navigation->order }}</td>
                     <td>{{ $navigation->is_active ? 'Yes' : 'No' }}</td>
                     <td>
+                        @if(in_array('edit navigation', array_keys($permissionsArray)))
                         <a href="{{ route('navigations.edit', $navigation) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('navigations.destroy', $navigation) }}" method="POST" style="display:inline;">
+                        @endif
+                            @if(in_array('delete navigation', array_keys($permissionsArray)))
+                            <form action="{{ route('navigations.destroy', $navigation) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?');">Delete</button>
                         </form>
+                            @endif
                     </td>
                 </tr>
             @endforeach

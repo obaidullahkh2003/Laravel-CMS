@@ -2,8 +2,9 @@
 
 @section('main-content')
     <h1>Blocks</h1>
-    <a href="{{ route('blocks.create') }}" class="btn btn-primary mt-3 mb-3">Create New Block</a>
-
+    @if(in_array('add block', array_keys($permissionsArray)))
+        <a href="{{ route('blocks.create') }}" class="btn btn-primary mt-3 mb-3">Create New Block</a>
+    @endif
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
@@ -30,12 +31,16 @@
                 <td>
 
                     <a href="{{ route('blocks.show', $block->block_id) }}" class="btn btn-info">View</a>
+                    @if(in_array('edit block', array_keys($permissionsArray)))
                     <a href="{{ route('blocks.edit', $block->block_id) }}" class="btn btn-warning">Edit</a>
+                    @endif
+                    @if(in_array('delete block', array_keys($permissionsArray)))
                     <form action="{{ route('blocks.destroy', $block->block_id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
+                    @endif
                 </td>
             </tr>
         @endforeach

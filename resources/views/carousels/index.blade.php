@@ -6,7 +6,9 @@
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
+        @if(in_array('create carousels', array_keys($permissionsArray)))
         <a href="{{ route('carousels.create') }}" class="btn btn-primary">Create New Carousel</a>
+        @endif
         <table class="table mt-3">
             <thead>
             <tr>
@@ -25,12 +27,16 @@
                     <td>{{ $carousel->subheading }}</td>
                     <td>{{ $carousel->heading }}</td>
                     <td>
+                        @if(in_array('edit carousels', array_keys($permissionsArray)))
                         <a href="{{ route('carousels.edit', $carousel) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('carousels.destroy', $carousel) }}" method="POST" style="display:inline;">
+                        @endif
+                            @if(in_array('delete carousels', array_keys($permissionsArray)))
+                            <form action="{{ route('carousels.destroy', $carousel) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
+                            @endif
                     </td>
                 </tr>
             @endforeach

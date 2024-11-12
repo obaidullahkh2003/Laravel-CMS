@@ -26,6 +26,7 @@
             </div>
 
             <!-- Role Selection -->
+            @if(in_array('change admin role', array_keys($permissionsArray)))
             <div class="form-group">
                 <label>Role</label>
                 <select name="role" class="form-control">
@@ -38,6 +39,7 @@
                     @endforeach
                 </select>
             </div>
+            @endif
 
             <!-- Submit Button -->
             <div class="form-group mt-4">

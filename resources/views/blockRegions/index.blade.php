@@ -2,8 +2,9 @@
 
 @section('main-content')
     <h1>Block Regions</h1>
-    <a href="{{ route('blockRegions.create') }}" class="btn btn-primary mt-3 mb3">Create New Block Region</a>
-
+    @if(in_array('add region', array_keys($permissionsArray)))
+        <a href="{{ route('blockRegions.create') }}" class="btn btn-primary mt-3 mb3">Create New Block Region</a>
+    @endif
     <table class="table mt-3">
         <thead>
         <tr>
@@ -19,12 +20,16 @@
                 <td>{{ $blockRegion->name }}</td>
                 <td>
                     <a href="{{ route('blockRegions.show', $blockRegion) }}" class="btn btn-info">View</a>
+                    @if(in_array('edit region', array_keys($permissionsArray)))
                     <a href="{{ route('blockRegions.edit', $blockRegion) }}" class="btn btn-warning">Edit</a>
+                    @endif
+                    @if(in_array('delete region', array_keys($permissionsArray)))
                     <form action="{{ route('blockRegions.destroy', $blockRegion) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
+                    @endif
                 </td>
             </tr>
         @endforeach

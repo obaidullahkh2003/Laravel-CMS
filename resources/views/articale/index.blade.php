@@ -9,9 +9,9 @@
                 {{ session('success') }}
             </div>
         @endif
-
-        <a href="{{ route('articale.create') }}" class="btn btn-primary mb-3">Create New Article</a>
-
+        @if(in_array('add article', array_keys($permissionsArray)))
+        <a href="{{ route('article.create') }}" class="btn btn-primary mb-3">Create New Article</a>
+        @endif
         <table class="table mt-4">
             <thead>
             <tr>
@@ -44,12 +44,16 @@
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('articale.edit', $article->id) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('articale.destroy', $article->id) }}" method="POST" style="display:inline;">
+                        @if(in_array('edit article', array_keys($permissionsArray)))
+                        <a href="{{ route('article.edit', $article->id) }}" class="btn btn-warning">Edit</a>
+                        @endif
+                        @if(in_array('delete article', array_keys($permissionsArray)))
+                        <form action="{{ route('article.destroy', $article->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?');">Delete</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?');">Delete</button>
                         </form>
+                        @endif
                     </td>
                 </tr>
             @endforeach

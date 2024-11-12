@@ -45,10 +45,7 @@
     </script>
 </head>
 <body id="page-top">
-@php
-    $user=Auth::guard('admin')->user();
-      dd($user->roles, $user->permissions);
-@endphp
+
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -83,6 +80,7 @@
 
 
         <!-- Nav Item - Users Collapse Menu -->
+        @if(in_array('View Users users', array_keys($permissionsArray))==true || in_array('View Users admins', array_keys($permissionsArray))==true)
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers"
                aria-expanded="false" aria-controls="collapseUsers">
@@ -91,91 +89,102 @@
             </a>
             <div id="collapseUsers" class="collapse" aria-labelledby="headingUsers" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    @can('View Users users')
+                    @if(in_array('View Users users', array_keys($permissionsArray)))
                     <a class="collapse-item" href="{{ url('admin/user') }}">
                         <i class="fas fa-fw fa-user-circle"></i>
                         <span>Users</span>
                     </a>
-                    @endcan
-                    <a class="collapse-item" href="{{ url('admin/admin') }}">
+                    @endif
+                    @if(in_array('View Users admins', array_keys($permissionsArray)))
+                        <a class="collapse-item" href="{{ url('admin/admin') }}">
                         <i class="fas fa-fw fa-user-shield"></i>
                         <span>Admins</span>
-                    </a>
+                        </a>
+                    @endif
                 </div>
             </div>
         </li>
+        @endif
 
         <li class="nav-item">
-
+            @if(in_array('View Roles', array_keys($permissionsArray)))
             <a class="nav-link" href="{{url('admin/roles')}}">
                 <i class="fas fa-user-shield"></i>
                 <span>{{ __('Roles') }}</span>
             </a>
 
+            @endif
         </li>
 
         <li class="nav-item">
-
-            <a class="nav-link" href="{{url('admin/articale')}}">
+            @if(in_array('View Article', array_keys($permissionsArray)))
+            <a class="nav-link" href="{{url('admin/article')}}">
                 <i class="fas fa-newspaper"></i>
                 <span>{{ __('Article') }}</span>
             </a>
-
+            @endif
         </li>
 
         <li class="nav-item">
-
+            @if(in_array('View Permissions', array_keys($permissionsArray)))
             <a class="nav-link" href="{{url('admin/permissions')}}">
                 <i class="fas fa-fw fa-wrench"></i>
                 <span>{{ __('Permissions') }}</span>
             </a>
-
+            @endif
         </li>
 
         <li class="nav-item">
-
+            @if(in_array('View Regions', array_keys($permissionsArray)))
             <a class="nav-link" href="{{url('admin/blockRegions')}}">
                 <i class="fas fa-fw fa-table"></i>
                 <span>{{ __('Regions') }}</span>
             </a>
-
+            @endif
         </li>
 
         <li class="nav-item">
-
+            @if(in_array('View Blocks', array_keys($permissionsArray)))
             <a class="nav-link" href="{{url('admin/blocks')}}">
                 <i class="fas fa-fw fa-cubes"></i>
                 <span>{{ __('Blocks') }}</span>
             </a>
-
+            @endif
         </li>
         <!-- Nav Item - Pages Collapse Menu -->
+        @if(in_array('View Page Content navigations', array_keys($permissionsArray))==true||
+            in_array('View Page Content carousels', array_keys($permissionsArray))==true||
+            in_array('View Page Content services', array_keys($permissionsArray))==true||
+            in_array('View Page Content portfolio', array_keys($permissionsArray))==true||
+            in_array('View Page Content timeline', array_keys($permissionsArray))==true)
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageContent"
                aria-expanded="false" aria-controls="collapsePageContent">
                 <i class="fas fa-fw fa-folder"></i>
                 <span>Page Content</span>
             </a>
+
             <div id="collapsePageContent" class="collapse" aria-labelledby="headingPageContent" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-
+                    @if(in_array('View Page Content navigations', array_keys($permissionsArray)))
                     <a class="collapse-item" href="{{url('admin/navigations')}}"><i class="fas fa-fw fa-cogs"></i> Navigations</a>
-
-
+                    @endif
+                    @if(in_array('View Page Content carousels', array_keys($permissionsArray)))
                     <a class="collapse-item" href="{{url('admin/carousels')}}"><i class="fas fa-fw fa-images"></i> Carousels</a>
-
-
+                    @endif
+                    @if(in_array('View Page Content services', array_keys($permissionsArray)))
                     <a class="collapse-item" href="{{url('admin/services')}}"><i class="fas fa-fw fa-briefcase"></i> Services</a>
-
-
+                    @endif
+                    @if(in_array('View Page Content portfolio', array_keys($permissionsArray)))
                     <a class="collapse-item" href="{{url('admin/portfolio')}}"><i class="fas fa-fw fa-folder"></i> Portfolio</a>
-
-
+                    @endif
+                    @if(in_array('View Page Content timeline', array_keys($permissionsArray)))
                     <a class="collapse-item" href="{{url('admin/timeline-events')}}"><i class="fas fa-fw fa-clock"></i> Timeline</a>
-
+                    @endif
                 </div>
             </div>
         </li>
+        @endif
 
 
 

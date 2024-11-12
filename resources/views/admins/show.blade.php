@@ -19,7 +19,9 @@
 
         <!-- Buttons -->
         <div class="mt-4">
+            @if(in_array('edit admin', array_keys($permissionsArray)))
             <a href="{{ route('admin.edit', $user) }}" class="btn btn-warning">Edit</a>
+            @endif
             <a href="{{ route('admin.index') }}" class="btn btn-secondary">Back to Admins</a>
         </div>
     </div>

@@ -15,7 +15,9 @@
         <p><strong>Category:</strong> {{ $portfolioItem->category }}</p>
 
         <div class="mt-3">
+            @if(in_array('edit portfolio', array_keys($permissionsArray)))
             <a href="{{ route('portfolio.edit', $portfolioItem) }}" class="btn btn-warning">Edit</a>
+            @endif
             <a href="{{ route('portfolio.index') }}" class="btn btn-secondary">Back</a>
         </div>
     </div>

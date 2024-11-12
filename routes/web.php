@@ -53,7 +53,7 @@ Route::prefix('admin')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile')->middleware('admin');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update')->middleware('admin');
-    Route::resource('articale', ArticaleController::class)->middleware('admin');
+    Route::resource('article', ArticaleController::class)->middleware('admin');
     Route::resource('user', UserController::class)->middleware('admin');
     Route::resource('admin', AdminController::class)->middleware('admin');
     Route::resource('roles', RoleController::class)->middleware('admin');

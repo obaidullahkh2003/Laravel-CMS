@@ -18,6 +18,7 @@
             </div>
 
             <!-- Permissions Section -->
+            @if(in_array('add permission to role', array_keys($permissionsArray)))
             <div class="form-group">
                 <label>Permissions</label><br>
                 @foreach($permissions as $permission)
@@ -33,6 +34,7 @@
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
             </div>
+            @endif
 
             <button type="submit" class="btn btn-primary">Update</button>
             <a href="{{ route('roles.index') }}" class="btn btn-secondary">Cancel</a>
