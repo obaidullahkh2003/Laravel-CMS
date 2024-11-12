@@ -32,21 +32,9 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-        View::composer('*', function ($view) {
-            $user = Auth::guard('admin')->user();
-            $permissionsArray = [];
-
-            if ($user) {
-                $roles = $user->roles;
-                foreach ($roles as $role) {
-                    foreach ($role->permissions as $permission) {
-                        $permissionsArray[$permission->name][] = $role->name;
-                    }
-                }
-            }
-
-            $view->with('permissionsArray', $permissionsArray);
-        });
+        if (file_exists(app_path('Helpers/helpers.php'))) {
+            require_once app_path('Helpers/helpers.php');
+        }
 
 
     }

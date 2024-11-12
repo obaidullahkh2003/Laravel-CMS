@@ -1,6 +1,9 @@
 @extends('admins.admin')
 
 @section('main-content')
+    @php
+        $permissionsArray = getPermissionsArray();
+    @endphp
     <h1>Edit Block Region</h1>
     <form action="{{ route('blockRegions.update', $blockRegion) }}" method="POST">
         @csrf

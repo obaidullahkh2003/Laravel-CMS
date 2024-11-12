@@ -13,9 +13,22 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
+
+    protected $permissionsArray = [];
+
+    public function __construct()
+    {
+        $this->permissionsArray = getPermissionsArray();
+    }
     public function AdminLogin(){
         return view('admins.login');
     }
+
+    public function getPermissionsArray(): array
+    {
+        return $this->permissionsArray;
+    }
+
 
     public function Dashboard()
     {
@@ -24,7 +37,6 @@ class AdminController extends Controller
         $widget = [
             'Users' => $users,
         ];
-
         return view('admins.home', compact('widget'));
     }
 
@@ -47,17 +59,23 @@ class AdminController extends Controller
     public function index()
     {
         $users = Admin::paginate(5);
+        if (!in_array('View Users admins', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         return view('admins.index', compact('users'));
     }
 
     public function create()
     {
         $roles = Role::all();
+        if (!in_array('add admin', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         return view('admins.create', compact('roles'));
     }
 
     public function store(Request $request)
     {
+        if (!in_array('add admin', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $data = $request->only(['name', 'email', 'password']);
         $data['password'] = Hash::make($request->password);
         $data['created_at'] = Carbon::now();
@@ -73,6 +91,8 @@ class AdminController extends Controller
     public function show($id)
     {
         $user = Admin::findOrFail($id);
+        if (!in_array('View Users admins', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         return view('admins.show', compact('user'));
     }
 
@@ -80,11 +100,15 @@ class AdminController extends Controller
     {
         $user = Admin::findOrFail($id);
         $roles = Role::all();
+        if (!in_array('edit admin', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         return view('admins.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, $id)
     {
+        if (!in_array('edit admin', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $user = Admin::findOrFail($id);
         $data = $request->only(['name', 'email']);
         $data['updated_at'] = Carbon::now();
@@ -108,6 +132,8 @@ class AdminController extends Controller
 
     public function destroy($id)
     {
+        if (!in_array('delete admin', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $user = Admin::findOrFail($id);
         $user->delete();
         return redirect()->route('admin.index')->with('success', 'User deleted successfully.');

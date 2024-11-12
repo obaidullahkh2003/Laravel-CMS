@@ -1,6 +1,9 @@
 @extends('admins.admin')
 
 @section('main-content')
+    @php
+        $permissionsArray = getPermissionsArray();
+    @endphp
     <h1>Block Regions</h1>
     @if(in_array('add region', array_keys($permissionsArray)))
         <a href="{{ route('blockRegions.create') }}" class="btn btn-primary mt-3 mb3">Create New Block Region</a>

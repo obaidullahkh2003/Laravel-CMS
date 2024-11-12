@@ -9,11 +9,19 @@ use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
+    protected $permissionsArray = [];
+
+    public function __construct()
+    {
+        $this->permissionsArray = getPermissionsArray();
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (!in_array('View Users users', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $users = User::paginate(5);
         return view('user.index', compact('users'));
     }
@@ -23,6 +31,8 @@ class UserController extends Controller
      */
     public function create()
     {
+        if (!in_array('add user', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $roles = Role::all();
         return view('user.create', compact('roles'));
     }
@@ -33,6 +43,8 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        if (!in_array('add user', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $data = $request->only(['name', 'email', 'address', 'phone']);
         $data['password'] = bcrypt($request->password);
         if ($request->hasFile('image')) {
@@ -52,6 +64,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        if (!in_array('View Users users', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $user=User::findOrFail($id);
         return view('user.show', compact('user'));
     }
@@ -61,6 +75,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        if (!in_array('edit user', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $user = User::findOrFail($id);
         $roles = Role::all();
         return view('user.edit', compact('user', 'roles'));
@@ -72,6 +88,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
+        if (!in_array('edit user', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $user = User::findOrFail($id);
         $data = $request->only(['name', 'email', 'address', 'phone']);
         if ($request->filled('password')) {
@@ -97,6 +115,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        if (!in_array('delete users', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $user=User::findOrFail($id);
         if ($user->image) {
             \Storage::disk('public')->delete($user->image);

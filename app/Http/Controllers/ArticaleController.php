@@ -8,11 +8,19 @@ use App\Http\Requests\UpdateArticaleRequest;
 
 class ArticaleController extends Controller
 {
+    protected $permissionsArray = [];
+
+    public function __construct()
+    {
+        $this->permissionsArray = getPermissionsArray();
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (!in_array('View Article', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $articles = Articale::paginate(5);
         return view('articale.index', compact('articles'));
     }
@@ -22,6 +30,8 @@ class ArticaleController extends Controller
      */
     public function create()
     {
+        if (!in_array('add article', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         return view('articale.create');
     }
 
@@ -30,6 +40,8 @@ class ArticaleController extends Controller
      */
     public function store(StoreArticaleRequest $request)
     {
+        if (!in_array('add article', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $data = $request->only(['title', 'content', 'is_published']);
 
         if ($request->hasFile('image')) {
@@ -46,6 +58,8 @@ class ArticaleController extends Controller
      */
     public function show(Articale $articale)
     {
+        if (!in_array('add article', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         return view('articale.show', compact('articale'));
     }
 
@@ -54,6 +68,8 @@ class ArticaleController extends Controller
      */
     public function edit(Articale $articale)
     {
+        if (!in_array('edit article', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         return view('articale.edit', compact('articale'));
     }
 
@@ -62,6 +78,8 @@ class ArticaleController extends Controller
      */
     public function update(UpdateArticaleRequest $request, Articale $articale)
     {
+        if (!in_array('edit article', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $data = $request->only(['title', 'content', 'is_published']);
 
         if ($request->hasFile('image')) {
@@ -81,6 +99,8 @@ class ArticaleController extends Controller
      */
     public function destroy(Articale $articale)
     {
+        if (!in_array('delete article', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         if ($articale->image) {
             \Storage::disk('public')->delete($articale->image);
         }

@@ -1,6 +1,9 @@
 @extends('admins.admin')
 
 @section('main-content')
+    @php
+        $permissionsArray = getPermissionsArray();
+    @endphp
     <div class="container mt-4">
         <h1>Navigation Items</h1>
         @if(in_array('add navigation', array_keys($permissionsArray)))

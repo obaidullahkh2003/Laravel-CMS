@@ -1,6 +1,9 @@
 @extends('admins.admin')
 
 @section('main-content')
+    @php
+        $permissionsArray = getPermissionsArray();
+    @endphp
     <h1>Block Details</h1>
     <p><strong>Block ID:</strong> {{ $block->block_id }}</p>
     <p><strong>Region ID:</strong> {{ $block->region_id }}</p>

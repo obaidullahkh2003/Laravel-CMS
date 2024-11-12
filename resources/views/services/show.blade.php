@@ -1,6 +1,9 @@
 @extends('admins.admin')
 
 @section('main-content')
+    @php
+        $permissionsArray = getPermissionsArray();
+    @endphp
     <div class="container">
         <h1>{{ $service->title }}</h1>
         <p>{{ $service->description }}</p>

@@ -1,6 +1,9 @@
 @extends('admins.admin')
 
 @section('main-content')
+    @php
+        $permissionsArray = getPermissionsArray();
+    @endphp
     <div class="container">
         <h1>Create Service</h1>
         <form action="{{ route('services.store') }}" method="POST" enctype="multipart/form-data">

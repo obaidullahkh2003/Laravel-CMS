@@ -40,9 +40,9 @@ Route::post('/main', function () {
 Auth::routes();
 
 /* ----------------- Admin -----------------*/
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/login', [AdminController::class, 'AdminLogin'])->name('admin_login');
-    Route::post('/login/owner', [AdminController::class, 'login'])->name('admin.login');
+    Route::post('/login', [AdminController::class, 'login'])->name('admin.login');
     Route::get('/', [AdminController::class, 'Dashboard'])->name('home')->middleware('admin');
     Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout')->middleware('admin');
     Route::get('/register', [AdminController::class, 'AdminRegister'])->name('admin.register');

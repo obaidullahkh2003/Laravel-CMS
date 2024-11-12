@@ -1,6 +1,9 @@
 @extends('admins.admin')
 
 @section('main-content')
+    @php
+        $permissionsArray = getPermissionsArray();
+    @endphp
     <div class="container">
         <h1>Edit Article</h1>
 
@@ -14,7 +17,7 @@
             </div>
         @endif
 
-        <form action="{{ route('articale.update', $articale->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('article.update', $articale->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -59,7 +62,7 @@
 
             <div class="form-group mt-4">
                 <button type="submit" class="btn btn-primary">Update Article</button>
-                <a href="{{ route('articale.index') }}" class="btn btn-secondary">Cancel</a>
+                <a href="{{ route('article.index') }}" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>

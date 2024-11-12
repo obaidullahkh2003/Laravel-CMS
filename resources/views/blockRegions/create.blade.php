@@ -1,6 +1,9 @@
 @extends('admins.admin')
 
 @section('main-content')
+    @php
+        $permissionsArray = getPermissionsArray();
+    @endphp
     <h1>Create Block Region</h1>
     <form action="{{ route('blockRegions.store') }}" method="POST">
         @csrf

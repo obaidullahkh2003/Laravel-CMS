@@ -1,10 +1,13 @@
 @extends('admins.admin')
 
 @section('main-content')
+    @php
+        $permissionsArray = getPermissionsArray();
+    @endphp
     <div class="container">
         <h1>Create New Article</h1>
 
-        <form action="{{ route('articale.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('article.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">

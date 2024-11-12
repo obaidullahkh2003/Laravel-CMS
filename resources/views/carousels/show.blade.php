@@ -1,6 +1,9 @@
 @extends('admins.admin')
 
 @section('main-content')
+    @php
+        $permissionsArray = getPermissionsArray();
+    @endphp
     <div class="container">
         <h1>{{ $carousel->heading }}</h1>
         <p><strong>Subheading:</strong> {{ $carousel->subheading }}</p>

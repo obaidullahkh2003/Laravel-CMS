@@ -1,6 +1,9 @@
 @extends('admins.admin')
 
 @section('main-content')
+    @php
+        $permissionsArray = getPermissionsArray();
+    @endphp
     <h1>Blocks</h1>
     @if(in_array('add block', array_keys($permissionsArray)))
         <a href="{{ route('blocks.create') }}" class="btn btn-primary mt-3 mb-3">Create New Block</a>

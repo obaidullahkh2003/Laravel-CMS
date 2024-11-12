@@ -9,21 +9,31 @@ use Illuminate\Support\Facades\Storage;
 
 class PortfolioItemController extends Controller
 {
+    protected $permissionsArray = [];
+
+    public function __construct()
+    {
+        $this->permissionsArray = getPermissionsArray();
+    }
     public function index()
     {
+        if (!in_array('View Page Content portfolio', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $portfolioItem = PortfolioItem::paginate(5);
         return view('portfolio.index', compact('portfolioItem'));
     }
 
     public function create()
     {
-
+        if (!in_array('create portfolio', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         return view('portfolio.create');
     }
 
     public function store(StorePortfolioItemRequest $request)
     {
-
+        if (!in_array('create portfolio', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $data = $request->only(['title', 'subtitle', 'client_name', 'category']);
         $data['is_active'] = $request->has('is_active') ? true : false;
 
@@ -38,18 +48,24 @@ class PortfolioItemController extends Controller
 
     public function show($id)
     {
+        if (!in_array('View Page Content portfolio', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $portfolioItem = PortfolioItem::findOrFail($id);
         return view('portfolio.show', compact('portfolioItem'));
     }
 
     public function edit($id)
     {
+        if (!in_array('edit portfolio', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $portfolioItem = PortfolioItem::findOrFail($id);
         return view('portfolio.edit', compact('id', 'portfolioItem'));
     }
 
     public function update(UpdatePortfolioItemRequest $request, $id)
     {
+        if (!in_array('edit portfolio', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $portfolioItem = PortfolioItem::findOrFail($id);
 
         $data = $request->only(['title', 'subtitle', 'client_name', 'category']);
@@ -69,6 +85,8 @@ class PortfolioItemController extends Controller
 
     public function destroy($id)
     {
+        if (!in_array('delete portfolio', array_keys(getPermissionsArray())))
+            abort(403, 'You are not authorized to view this resource.');
         $portfolioItem = PortfolioItem::findOrFail($id);
 
         if ($portfolioItem->image_path) {

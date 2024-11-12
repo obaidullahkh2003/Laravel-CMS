@@ -1,6 +1,9 @@
 @extends('admins.admin')
 
 @section('main-content')
+    @php
+        $permissionsArray = getPermissionsArray();
+    @endphp
     <div class="container">
         <h1>Portfolio Items</h1>
         @if(in_array('create portfolio', array_keys($permissionsArray)))

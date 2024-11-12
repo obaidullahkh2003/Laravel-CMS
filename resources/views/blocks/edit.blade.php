@@ -1,6 +1,9 @@
 @extends('admins.admin')
 
 @section('main-content')
+    @php
+        $permissionsArray = getPermissionsArray();
+    @endphp
     <h1>Edit Block</h1>
     <form action="{{ route('blocks.update', $block) }}" method="POST" enctype="multipart/form-data">
         @csrf

@@ -7,6 +7,12 @@ use App\Http\Requests\StoreContactMessageRequest;
 
 class ContactController extends Controller
 {
+    protected $permissionsArray = [];
+
+    public function __construct()
+    {
+        $this->permissionsArray = getPermissionsArray();
+    }
     public function index()
     {
         $messages = ContactMessage::latest()->take(3)->get();

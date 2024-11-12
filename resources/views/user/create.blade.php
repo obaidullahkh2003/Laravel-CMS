@@ -1,6 +1,9 @@
 @extends('admins.admin')
 
 @section('main-content')
+    @php
+        $permissionsArray = getPermissionsArray();
+    @endphp
     <div class="container">
         <h1>Add User</h1>
         <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">

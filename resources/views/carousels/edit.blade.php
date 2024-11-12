@@ -1,6 +1,7 @@
 @extends('admins.admin')
 
 @section('main-content')
+
     <div class="container">
         <h1>Edit Carousel</h1>
         <form action="{{ route('carousels.update', $carousel) }}" method="POST" enctype="multipart/form-data">

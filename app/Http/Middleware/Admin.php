@@ -17,17 +17,22 @@ class Admin
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        if (!Auth::guard('admin')->check()) {
-            \Log::debug('Admin is not authenticated.', ['ip' => $request->ip()]);
 
-            return redirect()->route('admin_login')->with('error', 'You are not authorized to access this page.');
+        if (Auth::guard('admin')->check()) {
+            if ($request->is('admin/login') || $request->is('admin/register')) {
+                return redirect()->route('home');
+            }
+        } else {
+            if (!$request->is('admin/login') && !$request->is('admin/register')) {
+                return redirect()->route('admin.login');
+            }
         }
-
-        \Log::debug('Admin is authenticated.', ['admin_id' => Auth::guard('admin')->id()]);
 
         return $next($request);
     }
+
+
 
 }

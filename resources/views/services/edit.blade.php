@@ -1,6 +1,9 @@
 @extends('admins.admin')
 
 @section('main-content')
+    @php
+        $permissionsArray = getPermissionsArray();
+    @endphp
     <div class="container">
         <h1>Edit Service</h1>
         <form action="{{ route('services.update', $service->id) }}" method="POST" enctype="multipart/form-data">

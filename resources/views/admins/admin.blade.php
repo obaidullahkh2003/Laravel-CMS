@@ -46,7 +46,6 @@
 </head>
 <body id="page-top">
 
-
 <!-- Page Wrapper -->
 <div id="wrapper">
     <!-- Sidebar -->
@@ -95,6 +94,7 @@
                         <span>Users</span>
                     </a>
                     @endif
+
                     @if(in_array('View Users admins', array_keys($permissionsArray)))
                         <a class="collapse-item" href="{{ url('admin/admin') }}">
                         <i class="fas fa-fw fa-user-shield"></i>
