@@ -45,7 +45,9 @@
     </script>
 </head>
 <body id="page-top">
-
+@php
+    $permissionsArray = getPermissionsArray();
+@endphp
 <!-- Page Wrapper -->
 <div id="wrapper">
     <!-- Sidebar -->
@@ -172,9 +174,9 @@
                     @if(in_array('View Page Content carousels', array_keys($permissionsArray)))
                     <a class="collapse-item" href="{{url('admin/carousels')}}"><i class="fas fa-fw fa-images"></i> Carousels</a>
                     @endif
-                    @if(in_array('View Page Content services', array_keys($permissionsArray)))
-                    <a class="collapse-item" href="{{url('admin/services')}}"><i class="fas fa-fw fa-briefcase"></i> Services</a>
-                    @endif
+{{--                    @if(in_array('View Page Content services', array_keys($permissionsArray)))--}}
+{{--                    <a class="collapse-item" href="{{url('admin/services')}}"><i class="fas fa-fw fa-briefcase"></i> Services</a>--}}
+{{--                    @endif--}}
                     @if(in_array('View Page Content portfolio', array_keys($permissionsArray)))
                     <a class="collapse-item" href="{{url('admin/portfolio')}}"><i class="fas fa-fw fa-folder"></i> Portfolio</a>
                     @endif

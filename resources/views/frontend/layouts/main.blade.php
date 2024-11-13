@@ -29,12 +29,12 @@
 
 @include('frontend.components.navigation')
 @include('frontend.components.masthead')
-@include('frontend.components.services')
+{{--@include('frontend.components.services')--}}
 @include('frontend.components.portfolio')
 @include('frontend.components.about')
 {{--@include('frontend.components.team')--}}
 @include('frontend.components.clients')
-@include('frontend.components.contact')
+{{--@include('frontend.components.contact')--}}
 @include('frontend.components.footer')
 @include('frontend.components.portfolioModals')
 
